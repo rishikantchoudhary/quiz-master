@@ -1,0 +1,43 @@
+{% extends "base.html" %} {% block title %}Sign up | Quiz Master{% endblock %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}" />
+{% endblock %} {% block content %}
+
+<div class="welcome">
+  <h1>Quiz Master</h1>
+  <p>
+    Crush your exams with Quiz Master—fun, interactive quizzes to master
+    subjects, track progress, and ace every test!
+  </p>
+</div>
+
+<div class="form-container" id="form-container">
+  <h2>Sign up</h2>
+  <form id="sign-up-form" method="post">
+    <input type="text" id="username" placeholder="Username" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <input type="text" id="full-name" placeholder="Full Name" required />
+    <label for="qualification">Qualification:</label>
+    <select id="qualification" name="qualification">
+      <option value="10">Class 10</option>
+      <option value="12">Class 12</option>
+      <option value="bachelor">Bachelor's</option>
+      <option value="master">Master's</option>
+      <option value="phd">Phd</option>
+    </select>
+    <input type="date" id="dob" placeholder="Date of Birth" required />
+    <button type="submit" id="sign-up-button">Sign up</button>
+  </form>
+  <div class="toggle-text">
+    <span>Already a user? <a id="toggle-sign-up">Log in</a></span>
+  </div>
+</div>
+{% endblock %} {% block script %}
+<script>
+  const toggle_sign_up = document.getElementById('toggle-sign-up')
+
+  toggle_sign_up.addEventListener('click', (e) => {
+    window.location.href = '/login'
+  })
+</script>
+{% endblock %}

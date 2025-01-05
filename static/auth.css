@@ -1,0 +1,80 @@
+.welcome {
+  flex: 5;
+  padding: 3rem;
+}
+
+.welcome h1 {
+  font-size: 5rem;
+  margin-bottom: 2rem;
+}
+
+.welcome p {
+  width: 85%;
+  font-size: 1.5rem;
+}
+
+.form-container {
+  flex: 3;
+  position: relative;
+  padding: 1.25rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container input {
+  padding: 0.75rem;
+  margin-bottom: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+.form-container select {
+  padding: 0.75rem;
+  margin-bottom: 0.7rem;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+.form-container button {
+  padding: 0.75rem;
+  background-color: #68b4e2;
+  color: #fff;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.form-container button:hover {
+  background-color: #3f9ad7;
+}
+
+.toggle-text {
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.toggle-text a {
+  color: #4da6ff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.toggle-text a:hover {
+  text-decoration: underline;
+}
