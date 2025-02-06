@@ -1,19 +1,21 @@
 from flask_sqlalchemy import SQLAlchemy
 from app import app
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
 db = SQLAlchemy(app)
 
 # models
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
-    userid = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     passhash = db.Column(db.String(256), nullable=False)
     fullname = db.Column(db.String(80), nullable=False)
     qualification = db.Column(db.String(80), nullable=False)
     dob = db.Column(db.Date, nullable=False)
+    is_admin = db.Column(db.Boolean, nullable=False, default=False)
 
     @property
     def password(self):
@@ -22,6 +24,9 @@ class User(db.Model):
     @password.setter
     def password(self, password):
         self.passhash = generate_password_hash(password)
+
+    def check_password(self,password):
+        return check_password_hash(self.passhash, password)
 
 class Subjects(db.Model):
     __tablename__ = 'subjects'
@@ -61,3 +66,15 @@ class Questions(db.Model):
 
 with app.app_context():
     db.create_all()
+    # create admin if does not exist
+    admin = User.query.filter_by(is_admin= True).first()
+    if not admin:
+        import datetime
+        dob = datetime.date(2000, 1, 1)
+        admin = User(username='admin', password='admin', fullname='Admin', qualification='phd', dob=dob , is_admin=True)
+        db.session.add(admin)
+        sub1 = Subjects(subjectname='Mathematics', subjectdesc='Mathematics is the study of numbers, quantities, and shapes.')
+        sub2 = Subjects(subjectname='Science', subjectdesc='Science is the study of the natural world.')
+        db.session.add(sub1)
+        db.session.add(sub2)
+        db.session.commit()

@@ -2,23 +2,37 @@
 block stylesheet %}
 <link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}" />
 {% endblock %} {% block content %}
-<div class="welcome">
-  <h1>Quiz Master</h1>
-  <p>
-    Crush your exams with Quiz Master—fun, interactive quizzes to master
-    subjects, track progress, and ace every test!
-  </p>
-</div>
+<div class="auth-div">
+  <div class="welcome">
+    <h1>Quiz Master</h1>
+    <p>
+      Crush your exams with Quiz Master—fun, interactive quizzes to master
+      subjects, track progress, and ace every test!
+    </p>
+  </div>
 
-<div class="form-container" id="form-container">
-  <h2>Log in</h2>
-  <form id="log-in-form">
-    <input type="text" id="username" placeholder="Username" required />
-    <input type="password" id="password" placeholder="Password" required />
-    <button type="submit" id="log-in-button">Log in</button>
-  </form>
-  <div class="toggle-text">
-    <span>New user? <a id="toggle-log-in">Sign up</a></span>
+  <div class="form-container" id="form-container">
+    <h2>Log in</h2>
+    <form id="log-in-form" method="post">
+      <input
+        type="text"
+        id="username"
+        placeholder="Username"
+        name="username"
+        required
+      />
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        name="password"
+        required
+      />
+      <button type="submit" id="log-in-button">Log in</button>
+    </form>
+    <div class="toggle-text">
+      <span>New user? <a id="toggle-log-in">Sign up</a></span>
+    </div>
   </div>
 </div>
 {% endblock %} {% block script %}

@@ -1,0 +1,128 @@
+{% extends "base.html" %} {% block title %}Profile | Quiz Master{% endblock %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}" />
+<style>
+  .profile-form-container {
+    margin: auto;
+    padding: 3rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .profile-form {
+    width: 60%;
+    padding: 2.5rem 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    background-color: #f3ffff;
+  }
+
+  .profile-form h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .profile-inputs {
+    margin: auto;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+  }
+
+  .profile-inputs label {
+    margin-bottom: 0.3rem;
+  }
+
+  .profile-inputs input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .profile-form button {
+    margin: auto;
+    padding: 0.5rem 1rem;
+    display: block;
+    font-size: 1rem;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .profile-form button:hover {
+    background-color: #45a049;
+  }
+</style>
+{% endblock %} {% block navbar %} {%if user.is_admin == True%}
+<header>
+  <div class="header-container">
+    <h1>Quiz Master</h1>
+    <nav>
+      <ul>
+        <li>
+          <a href="/dashboard">Home</a>
+        </li>
+        <li>
+          <a href="/admin-quiz">Quiz</a>
+        </li>
+        <li>
+          <a href="/admin-summary">Summary</a>
+        </li>
+        <li>
+          <a href="/logout">Log out</a>
+        </li>
+      </ul>
+    </nav>
+    <a href="/profile">Welcome, Admin</a>
+  </div>
+</header>
+{% endif %} {% endblock %} {% block content %}
+<div class="profile-form-container">
+  <form method="post" class="profile-form">
+    <h2>Edit Profile</h2>
+    <div class="profile-inputs">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        placeholder="Username"
+        value="{{ user.username }}"
+        required
+      />
+      <label for="fullname">Name</label>
+      <input
+        type="text"
+        id="fullname"
+        name="fullname"
+        placeholder="Full Name"
+        value="{{ user.fullname }}"
+        required
+      />
+      <label for="old-password">Old Password</label>
+      <input
+        type="password"
+        id="old-password"
+        name="old-password"
+        placeholder="Enter Old Password"
+        required
+      />
+      <label for="new-password">New Password</label>
+      <input
+        type="password"
+        id="new-password"
+        name="new-password"
+        placeholder="Enter New Password"
+        required
+      />
+    </div>
+    <button type="submit" id="save">Save</button>
+  </form>
+</div>
+{% endblock %} {% block script %} {% endblock %}

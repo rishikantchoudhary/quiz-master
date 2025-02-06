@@ -1,0 +1,187 @@
+.topbar {
+  margin: 2rem;
+}
+
+.topbar form {
+  display: inline;
+}
+
+.topbar select {
+  margin-left: 1rem;
+  padding: 0.3rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  background-color: #f3ffff;
+}
+
+.topbar button {
+  margin: 0.4rem 1.5rem;
+  padding: 5px 10px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  color: #fff;
+}
+
+#apply {
+  background-color: #4caf50;
+}
+
+#clear {
+  background-color: #68b4e2;
+  margin-left: 0;
+}
+
+#apply:hover {
+  background-color: #45a049;
+}
+
+.subject-display {
+  padding: 1rem 2rem;
+  width: 100%;
+  background-color: #f3ffff;
+  border-radius: 1rem;
+}
+
+.sub-header {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#add-sub-btn {
+  padding: 7px 15px 5px;
+  font-size: 1rem;
+  background-color: #68b4e2;
+  color: #fff;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+#add-sub-btn:hover,
+#clear:hover {
+  background-color: #5095d1;
+}
+
+.subjects {
+  display: flex;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.subject-card {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 300px;
+}
+
+.subject-card h3 {
+  margin: 0 0 10px;
+}
+
+.subject-card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.subject-card table th,
+.subject-card table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.subject-card button {
+  margin-top: 1rem;
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+.subject-card button.delete,
+#cancel-sub,
+#cancel-chap {
+  background-color: #f44;
+}
+
+.subject-card button.delete:hover,
+#cancel-sub:hover,
+#cancel-chap:hover {
+  background-color: rgb(223, 51, 51);
+}
+
+#save-sub-btn,
+#add-chap-btn {
+  background-color: #4caf50;
+}
+.subject-card button:hover,
+#save-sub-btn:hover,
+#add-chap-btn:hover {
+  background-color: #429846;
+}
+
+textarea {
+  resize: none;
+}
+
+.add-sub,
+.add-chap {
+  width: 40vw;
+  height: 40vh;
+  background-color: #f3ffff;
+  border-radius: 1rem;
+  border: 1px solid #ccc;
+  position: fixed;
+  top: 30%;
+  left: 30%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 1000rem 1000rem rgba(0, 0, 0, 0.3);
+}
+
+form input,
+form textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.add-sub h3,
+.add-chap h3 {
+  margin: 2rem 0 0.5rem;
+  font-size: 1.5rem;
+}
+.add-sub form,
+.add-chap form {
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.pop-up-btn-sec {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.pop-up-btn-sec button {
+  min-width: 5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  color: #fff;
+}

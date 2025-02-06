@@ -1,0 +1,167 @@
+{% extends "base.html" %} {% block title %}Dashboard | Quiz Master{% endblock %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}" />
+{%if user.is_admin == True%}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='adminDashboard.css') }}"
+/>
+{% endif %} {% endblock%} {% block navbar %} {%if user.is_admin == True%}
+<header>
+  <div class="header-container">
+    <h1>Quiz Master</h1>
+    <nav>
+      <ul>
+        <li>
+          <a href="/dashboard">Home</a>
+        </li>
+        <li>
+          <a href="/admin-quiz">Quiz</a>
+        </li>
+        <li>
+          <a href="/admin-summary">Summary</a>
+        </li>
+        <li>
+          <a href="/logout">Log out</a>
+        </li>
+      </ul>
+    </nav>
+    <a href="/profile">Welcome, Admin</a>
+  </div>
+</header>
+{% endif %} {% endblock %} {% block content %} {%if user.is_admin == True%}
+<main>
+  <div class="topbar">
+    <form method="post">
+      <label for="subject">Choose a Subject : </label>
+      <select id="subject" name="subject">
+        {% for subject in subjects %}
+        <option value="{{ subject.subjectname }}">
+          {{ subject.subjectname }}
+        </option>
+        {% endfor %}
+      </select>
+      <button type="submit" id="apply">Apply</button>
+    </form>
+    <button id="clear" onclick="window.location.href='/dashboard'">
+      Clear
+    </button>
+  </div>
+
+  <div class="subject-display">
+    <div class="sub-header">
+      <h2>All Subjects</h2>
+      <button id="add-sub-btn">Add new subject</button>
+    </div>
+    <div class="subjects">
+      {% if subject %} {% for i in subjects %} {% if i.subjectname == subject %}
+      <div class="subject-card">
+        <h3>{{ i.subjectname }}</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Chapter</th>
+              <th>No. of ques</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>01</td>
+              <td>SHM</td>
+              <td>03</td>
+              <td><button class="delete">Delete</button></td>
+            </tr>
+            <tr>
+              <td>02</td>
+              <td>Force</td>
+              <td>05</td>
+              <td><button class="delete">Delete</button></td>
+            </tr>
+            <tr>
+              <td>03</td>
+              <td>Kinematics</td>
+              <td>04</td>
+              <td><button class="delete">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button>Add new chapter</button>
+      </div>
+      {% endif %} {% endfor %} {% else %} {% for i in subjects %}
+      <div class="subject-card">
+        <h3>{{ i.subjectname }}</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Chapter</th>
+              <th>No. of ques</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>01</td>
+              <td>SHM</td>
+              <td>03</td>
+              <td><button class="delete">Delete</button></td>
+            </tr>
+            <tr>
+              <td>02</td>
+              <td>Force</td>
+              <td>05</td>
+              <td><button class="delete">Delete</button></td>
+            </tr>
+            <tr>
+              <td>03</td>
+              <td>Kinematics</td>
+              <td>04</td>
+              <td><button class="delete">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button>Add new chapter</button>
+      </div>
+      {% endfor %} {% endif %}
+    </div>
+  </div>
+</main>
+<div class="add-sub" id="add-sub">
+  <h3>Add New Subject</h3>
+  <form method="post" name="add-sub-form">
+    <input
+      type="text"
+      name="sub-name"
+      id="sub-name"
+      placeholder="Name"
+      required
+    />
+    <textarea
+      name="sub-description"
+      id="sub-description"
+      placeholder="Description"
+      cols="30"
+      rows="3"
+      required
+    ></textarea>
+    <div class="pop-up-btn-sec">
+      <button id="save-sub-btn" type="submit">Save</button>
+      <button id="cancel-sub">Cancel</button>
+    </div>
+  </form>
+</div>
+<script src="{{ url_for('static', filename='adminDashboard.js') }}"></script>
+{% else %}
+<h1>User Dashboard</h1>
+<p>{{user.fullname}}</p>
+<button id="logout">Logout</button>
+{% endif %} {% endblock %} {% block script%}
+<script>
+  const logoutButton = document.getElementById('logout')
+  logoutButton.addEventListener('click', () => {
+    window.location.href = '/logout'
+  })
+</script>
+{% endblock %}

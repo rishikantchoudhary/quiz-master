@@ -19,6 +19,19 @@
   <body>
     {% block navbar %}{% endblock %}
     <div class="container">{% block content %}{% endblock %}</div>
+    {% with messages = get_flashed_messages(with_categories = true) %} {% if
+    messages %} {% for category, message in messages %} {% if category ==
+    'error'%}
+    <div class="message error" id="alert">
+      <span>{{ message }}</span>
+      <span class="close" id="close-alert">&times;</span>
+    </div>
+    {% else %}
+    <div class="message success" id="alert">
+      <span>{{ message }}</span>
+      <span class="close" id="close-alert">&times;</span>
+    </div>
+    {% endif %} {% endfor %} {% endif %} {% endwith %}
 
     <script src="{{ url_for('static', filename='index.js') }}"></script>
     {% block script %} {% endblock %}
