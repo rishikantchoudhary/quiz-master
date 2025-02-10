@@ -1,0 +1,126 @@
+{% extends "base.html" %} {% block title %}Edit Quiz | Quiz Master{% endblock %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}" />
+<style>
+  .form-container {
+    margin: auto;
+    padding: 3rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  form {
+    width: 60%;
+    padding: 2.5rem 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    background-color: #f3ffff;
+  }
+
+  form h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-inputs {
+    margin: auto;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-inputs label {
+    margin-bottom: 0.3rem;
+  }
+
+  .form-inputs input,
+  .form-inputs select {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .btn-sec {
+    display: flex;
+    justify-content: center;
+  }
+
+  form button {
+    margin: 0 3rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #4caf50;
+  }
+  form button:hover {
+    background-color: #3a9c3d;
+  }
+</style>
+{% endblock %} {% block navbar %}
+<header>
+  <div class="header-container">
+    <h1>Quiz Master</h1>
+    <nav>
+      <ul>
+        <li>
+          <a href="/dashboard">Home</a>
+        </li>
+        <li>
+          <a href="/admin-quiz">Quiz</a>
+        </li>
+        <li>
+          <a href="/admin-summary">Summary</a>
+        </li>
+        <li>
+          <a href="/logout">Log out</a>
+        </li>
+      </ul>
+    </nav>
+    <a href="/profile">Welcome, {{ user.fullname}}</a>
+  </div>
+</header>
+{% endblock %} {% block content %}
+<div class="form-container">
+  <form method="post" name="edit-quiz-form">
+    <h2>Edit Quiz</h2>
+    <div class="form-inputs">
+      <label for="quiz-name">Quiz name:</label>
+      <input
+        type="text"
+        name="quiz-name"
+        id="quiz-name"
+        placeholder="Quiz name"
+        value="{{ quiz.quizname }}"
+        required
+      />
+      <label for="quiz-duration">Quiz duration:</label>
+      <input
+        type="number"
+        name="quiz-duration"
+        id="quiz-duration"
+        placeholder="Quiz duration"
+        value="{{ quiz.duration }}"
+        required
+      />
+      <label for="select-subject">Select subject:</label>
+      <select id="select-subject" name="select-subject">
+        {% for subject in subjects %}
+        <option value="{{ subject.subjectname }}">
+          {{ subject.subjectname }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="btn-sec">
+      <button class="save-btn" type="submit">Save Changes</button>
+    </div>
+  </form>
+</div>
+{% endblock %} {% block script %} {% endblock %}

@@ -33,6 +33,8 @@ class Subjects(db.Model):
     subjectid = db.Column(db.Integer, primary_key=True)
     subjectname = db.Column(db.String(80), unique=False, nullable=False)
     subjectdesc = db.Column(db.String(512), nullable=False)
+    #relationships
+    chapters = db.relationship('Chapters', backref='subject', lazy=True)
 
 class Chapters(db.Model):
     __tablename__ = 'chapters'
@@ -40,6 +42,8 @@ class Chapters(db.Model):
     subjectid = db.Column(db.Integer, db.ForeignKey('subjects.subjectid'), nullable=False)
     chaptername = db.Column(db.String(80), unique=False, nullable=False)
     chapterdesc = db.Column(db.String(512), nullable=False)
+    #relationships
+    questions = db.relationship('Questions', backref='chapter', lazy=True)
 
 class Quizzes(db.Model):
     __tablename__ = 'quizzes'
@@ -73,8 +77,8 @@ with app.app_context():
         dob = datetime.date(2000, 1, 1)
         admin = User(username='admin', password='admin', fullname='Admin', qualification='phd', dob=dob , is_admin=True)
         db.session.add(admin)
-        sub1 = Subjects(subjectname='Mathematics', subjectdesc='Mathematics is the study of numbers, quantities, and shapes.')
-        sub2 = Subjects(subjectname='Science', subjectdesc='Science is the study of the natural world.')
-        db.session.add(sub1)
-        db.session.add(sub2)
+        quiz1 = Quizzes(quizname='quiz1', subjectid=1, duration=30, quizdate=datetime.date(2021, 1, 1))
+        quiz2 = Quizzes(quizname='quiz2', subjectid=2, duration=30, quizdate=datetime.date(2021, 1, 1))
+        db.session.add(quiz1)
+        db.session.add(quiz2)
         db.session.commit()

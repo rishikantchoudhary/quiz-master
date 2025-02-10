@@ -8,5 +8,5 @@ try {
 
   setTimeout(() => {
     alert.style.display = 'none'
-  }, 5000)
+  }, 3000)
 } catch (error) {}

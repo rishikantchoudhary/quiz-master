@@ -1,0 +1,106 @@
+{% extends "base.html" %} {% block title %}View Question | Quiz Master{%
+endblock %} {% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}" />
+<style>
+  main {
+    margin: 4rem 0;
+    padding: 0.5rem;
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f3ffff;
+    border-radius: 0.5rem;
+  }
+
+  .sub-header {
+    margin: 3rem 0;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .sub-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .sub-header button {
+    padding: 7px 15px 5px;
+    font-size: 1rem;
+    background-color: #68b4e2;
+    color: #fff;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+
+  .sub-header button:hover {
+    background-color: #4f9ecb;
+  }
+
+  .question-display {
+    margin-bottom: 2rem;
+    width: 80%;
+    font-size: 1.2rem;
+  }
+
+  .question-display div {
+    margin-bottom: 1.5rem;
+  }
+
+  .question-display p {
+    margin: 0.5rem 0;
+  }
+</style>
+{% endblock %} {% block navbar %}
+<header>
+  <div class="header-container">
+    <h1>Quiz Master</h1>
+    <nav>
+      <ul>
+        <li>
+          <a href="/dashboard">Home</a>
+        </li>
+        <li>
+          <a href="/admin-quiz">Quiz</a>
+        </li>
+        <li>
+          <a href="/admin-summary">Summary</a>
+        </li>
+        <li>
+          <a href="/logout">Log out</a>
+        </li>
+      </ul>
+    </nav>
+    <a href="/profile">Welcome, {{ user.fullname}}</a>
+  </div>
+</header>
+{% endblock %} {% block content %}
+<main>
+  <div class="sub-header">
+    <h2>Chapter: {{chapter}}</h2>
+    <button onclick="goBack()">Go back</button>
+  </div>
+  <div class="question-display">
+    <div class="question">
+      <p><b>Question id:</b> {{ question.questionid }}</p>
+      <p><b>Question title:</b> {{ question.title }}</p>
+      <p><b>Question statement:</b> {{ question.statement }}</p>
+    </div>
+    <div class="options">
+      <p><b>Options</b></p>
+      <p><b>Option 1 :</b> {{question.option1}}</p>
+      <p><b>Option 2 :</b> {{question.option2}}</p>
+      <p><b>Option 3 :</b> {{question.option3}}</p>
+      <p><b>Option 4 :</b> {{question.option4}}</p>
+      <p><b>Answer :</b> Option {{question.ans}}</p>
+    </div>
+  </div>
+</main>
+{% endblock %} {% block script %}
+<script>
+  function goBack() {
+    window.history.back()
+  }
+</script>
+{% endblock %}

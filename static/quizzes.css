@@ -37,7 +37,8 @@
   background-color: #45a049;
 }
 
-.subject-display {
+.quiz-display {
+  min-height: 50vh;
   padding: 1rem 2rem;
   width: 100%;
   background-color: #f3ffff;
@@ -51,7 +52,7 @@
   align-items: center;
 }
 
-#add-sub-btn {
+#add-quiz-btn {
   padding: 7px 15px 5px;
   font-size: 1rem;
   background-color: #68b4e2;
@@ -61,86 +62,69 @@
   cursor: pointer;
 }
 
-#add-sub-btn:hover,
+#add-quiz-btn:hover,
 #clear:hover {
   background-color: #5095d1;
 }
 
-.subjects {
-  display: flex;
-  gap: 1.75rem;
-  flex-wrap: wrap;
+.quizzes {
+  margin: auto;
+  width: 90%;
 }
 
-.subject-card {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 300px;
-}
-
-.subject-card h3 {
-  margin: 0 0 10px;
-}
-
-.subject-card table {
+.quizzes table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.subject-card table th,
-.subject-card table td {
+.quizzes table th,
+.quizzes table td {
   border: 1px solid #ccc;
   padding: 8px;
-  text-align: left;
+  text-align: center;
 }
 
-.subject-card button {
-  margin-top: 1rem;
+.quizzes table button {
   padding: 0.4rem 1rem;
   font-size: 0.8rem;
-  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
 }
-.subject-card button.delete,
-#cancel-sub,
-#cancel-chap {
+
+.view-btn {
+  background-color: #4caf50;
+}
+
+.view-btn:hover {
+  background-color: #419b44;
+}
+
+.edit-btn {
+  background-color: #68b4e2;
+}
+
+.edit-btn:hover {
+  background-color: #5095d1;
+}
+
+.delete-btn {
   background-color: #f44;
 }
 
-.subject-card button.delete:hover,
-#cancel-sub:hover,
-#cancel-chap:hover {
-  background-color: rgb(223, 51, 51);
+.delete-btn:hover {
+  background-color: rgb(237, 51, 51);
 }
 
-#save-sub-btn,
-#add-chap-btn {
-  background-color: #4caf50;
-}
-.subject-card button:hover,
-#save-sub-btn:hover,
-#add-chap-btn:hover {
-  background-color: #429846;
-}
-
-textarea {
-  resize: none;
-}
-
-.add-sub {
+.add-quiz {
   width: 40vw;
-  height: 40vh;
+  height: 50vh;
   background-color: #f3ffff;
   border-radius: 1rem;
   border: 1px solid #ccc;
   position: fixed;
-  top: 30%;
+  top: 25%;
   left: 30%;
   display: none;
   flex-direction: column;
@@ -148,20 +132,21 @@ textarea {
   box-shadow: 0 0 1000rem 1000rem rgba(0, 0, 0, 0.3);
 }
 
-form input,
-form textarea {
+.add-quiz form input,
+.add-quiz form select {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
   font-size: 0.9rem;
 }
 
-.add-sub h3 {
+.add-quiz h3 {
   margin: 2rem 0 0.5rem;
   font-size: 1.5rem;
 }
 
-.add-sub form {
+.add-quiz form {
+  width: 70%;
   height: 70%;
   display: flex;
   flex-direction: column;
@@ -182,4 +167,20 @@ form textarea {
   border-radius: 0.25rem;
   cursor: pointer;
   color: #fff;
+}
+
+#save-quiz-btn {
+  background-color: #4caf50;
+}
+
+#save-quiz-btn:hover {
+  background-color: #45a049;
+}
+
+#cancel-quiz {
+  background-color: #f44;
+}
+
+#cancel-quiz:hover {
+  background-color: rgb(237, 51, 51);
 }

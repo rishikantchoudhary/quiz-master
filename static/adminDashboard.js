@@ -9,3 +9,32 @@ addSubBtn.addEventListener('click', () => {
 cancelSub.addEventListener('click', () => {
   addSub.style.display = 'none'
 })
+
+// delete sub
+function deleteSub(id) {
+  fetch(`/delete-sub`, {
+    method: 'POST',
+    body: JSON.stringify({ sub_id: id }),
+  }).then((res) => {
+    if (res.ok) {
+      window.location.href = '/dashboard'
+    }
+  })
+}
+
+// delete chapter
+function deleteChap(id) {
+  fetch(`/delete-chap`, {
+    method: 'POST',
+    body: JSON.stringify({ chap_id: id }),
+  }).then((res) => {
+    if (res.ok) {
+      window.location.href = '/dashboard'
+    }
+  })
+}
+
+// add chapter
+function addChap(sub_id) {
+  window.location.href = `/add-chapter/${sub_id}`
+}

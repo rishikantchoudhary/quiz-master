@@ -79,7 +79,30 @@
         </li>
       </ul>
     </nav>
-    <a href="/profile">Welcome, Admin</a>
+    <a href="/profile">Welcome, {{ user.fullname}}</a>
+  </div>
+</header>
+{% else %}
+<header>
+  <div class="header-container">
+    <h1>Quiz Master</h1>
+    <nav>
+      <ul>
+        <li>
+          <a href="/dashboard">Home</a>
+        </li>
+        <li>
+          <a href="/score">Score</a>
+        </li>
+        <li>
+          <a href="/summary">Summary</a>
+        </li>
+        <li>
+          <a href="/logout">Log out</a>
+        </li>
+      </ul>
+    </nav>
+    <a href="/profile">Welcome, {{ user.fullname}}</a>
   </div>
 </header>
 {% endif %} {% endblock %} {% block content %}

@@ -1,0 +1,117 @@
+{% extends "base.html" %} {% block title %}Quizes | Quiz Master{% endblock %} {%
+block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='quizzes.css') }}" />
+{% endblock %} {% block navbar %}
+<header>
+  <div class="header-container">
+    <h1>Quiz Master</h1>
+    <nav>
+      <ul>
+        <li>
+          <a href="/dashboard">Home</a>
+        </li>
+        <li>
+          <a href="/admin-quiz">Quiz</a>
+        </li>
+        <li>
+          <a href="/admin-summary">Summary</a>
+        </li>
+        <li>
+          <a href="/logout">Log out</a>
+        </li>
+      </ul>
+    </nav>
+    <a href="/profile">Welcome, {{ user.fullname}}</a>
+  </div>
+</header>
+{% endblock %} {% block content %}
+<main>
+  <div class="topbar">
+    <form method="post">
+      <label for="subject">Choose a Subject : </label>
+      <select id="subject" name="subject">
+        {% for subject in subjects %}
+        <option value="{{ subject.subjectname }}">
+          {{ subject.subjectname }}
+        </option>
+        {% endfor %}
+      </select>
+      <button type="submit" id="apply">Apply</button>
+    </form>
+    <button id="clear" onclick="window.location.href='/admin-quiz'">
+      Clear
+    </button>
+  </div>
+  <div class="quiz-display">
+    <div class="sub-header">
+      <h2>All Quizzes</h2>
+      <button id="add-quiz-btn">Add new quiz</button>
+    </div>
+    <div class="quizzes">
+      <table>
+        <thead>
+          <tr>
+            <th>Quiz ID</th>
+            <th>Quiz Name</th>
+            <th>Subject</th>
+            <th>Duration</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for quiz in quizzes %}
+          <tr>
+            <td>{{ quiz.quizid }}</td>
+            <td>{{ quiz.quizname }}</td>
+            {% for subject in subjects %}
+            {% if subject.subjectid == quiz.subjectid %}
+            <td>{{ subject.subjectname }}</td>
+            {% endif %}
+            {% endfor %}
+            <td>{{ quiz.duration }} mins</td>
+            <td>
+              <button class="view-btn" onclick="viewQuiz({{ quiz.quizid }})">View</button>
+              <button class="edit-btn" onclick="editQuiz({{ quiz.quizid }})">Edit</button>
+              <button class="delete-btn" onclick="deleteQuiz({{ quiz.quizid }})">Delete</button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+</main>
+<div class="add-quiz" id="add-quiz">
+  <h3>Add New Quiz</h3>
+  <form method="post" name="add-quiz-form">
+    <input
+      type="text"
+      name="quiz-name"
+      id="quiz-name"
+      placeholder="Quiz Name"
+      required
+    />
+    <input
+      type="number"
+      name="quiz-duration"
+      id="quiz-duration"
+      placeholder="Duration"
+      required
+    />
+    <label for="select-subject">Select subject:</label>
+    <select id="select-subject" name="select-subject">
+        {% for subject in subjects %}
+        <option value="{{ subject.subjectname }}">
+          {{ subject.subjectname }}
+        </option>
+        {% endfor %}
+    </select>
+    <div class="pop-up-btn-sec">
+      <button id="save-quiz-btn" type="submit">Save</button>
+      <button id="cancel-quiz">Cancel</button>
+    </div>
+  </form>
+</div>
+{% endblock %} {% block script %}
+<script src="{{ url_for('static', filename='quizzes.js') }}"></script>
+{% endblock %}

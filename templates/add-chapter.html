@@ -1,0 +1,144 @@
+{% extends "base.html" %} {% block title %}Add Chapter | Quiz Master{% endblock
+%} {% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}" />
+<style>
+  .form-container {
+    margin: auto;
+    padding: 3rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  form {
+    width: 60%;
+    padding: 2.5rem 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    background-color: #f3ffff;
+  }
+
+  textarea {
+    resize: none;
+  }
+  form h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-inputs {
+    margin: auto;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-inputs label {
+    margin-bottom: 0.3rem;
+  }
+
+  .form-inputs input,
+  .form-inputs textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .btn-sec {
+    display: flex;
+    justify-content: center;
+  }
+
+  form button {
+    margin: 0 3rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .save-btn {
+    background-color: #4caf50;
+  }
+
+  .cancel-btn {
+    background-color: #f44;
+  }
+
+  .save-btn:hover {
+    background-color: #3a9c3d;
+  }
+
+  .cancel-btn:hover {
+    background-color: rgb(233, 54, 54);
+  }
+</style>
+{% endblock %} {% block navbar %}
+<header>
+  <div class="header-container">
+    <h1>Quiz Master</h1>
+    <nav>
+      <ul>
+        <li>
+          <a href="/dashboard">Home</a>
+        </li>
+        <li>
+          <a href="/admin-quiz">Quiz</a>
+        </li>
+        <li>
+          <a href="/admin-summary">Summary</a>
+        </li>
+        <li>
+          <a href="/logout">Log out</a>
+        </li>
+      </ul>
+    </nav>
+    <a href="/profile">Welcome, {{ user.fullname}}</a>
+  </div>
+</header>
+{% endblock %} {% block content %}
+<div class="form-container">
+  <form method="post" name="add-chap-form">
+    <h2>Add Chapter</h2>
+    <div class="form-inputs">
+      <label for="subject-id">Subject Id:</label>
+      <input
+        type="text"
+        name="subject-id"
+        id="subject-id"
+        placeholder="Subject id"
+        value="{{ subjectid }}"
+        readonly
+      />
+      <label for="chap-name">Chapter Name:</label>
+      <input
+        type="text"
+        name="chap-name"
+        id="chap-name"
+        placeholder="Chapter name"
+        required
+      />
+      <label for="chap-description">Chapter Description:</label>
+      <textarea
+        name="chap-description"
+        id="chap-description"
+        placeholder="Description"
+        cols="30"
+        rows="3"
+        required
+      ></textarea>
+    </div>
+    <div class="btn-sec">
+      <button class="save-btn" type="submit">Add Chapter</button>
+      <button class="cancel-btn" onclick="window.location.href = '/dashboard'">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %} {% block script %} {% endblock %}
