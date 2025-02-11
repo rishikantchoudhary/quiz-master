@@ -1,6 +1,10 @@
-{% extends "base.html" %} {% block title %}Admin Dashboard | Quiz Master{%
-endblock %} {% block stylesheet %}
+{% extends "base.html" %} {% block title %}Dashboard | Quiz Master{% endblock %}
+{% block stylesheet %}
 <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}" />
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='dashboard.css') }}"
+/>
 {% endblock%} {% block navbar %}
 <header>
   <div class="header-container">
@@ -26,14 +30,71 @@ endblock %} {% block stylesheet %}
 </header>
 {% endblock %} {% block content %}
 <main>
-  <h1>Hello world</h1>
+  <div class="topbar">
+    <form method="post">
+      <label for="subject">Choose a Subject : </label>
+      <select id="subject" name="subject">
+        {% for subject in subjects %}
+        <option value="{{ subject.subjectname }}">
+          {{ subject.subjectname }}
+        </option>
+        {% endfor %}
+      </select>
+      <button type="submit" id="apply">Apply</button>
+    </form>
+    <button id="clear" onclick="window.location.href='/dashboard'">
+      Clear
+    </button>
+  </div>
+  <div class="quiz-display">
+    <h2>Available Quizzes</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Quiz ID</th>
+          <th>Subject</th>
+          <th>No. of questions</th>
+          <th>Date</th>
+          <th>Duration</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for quiz in quizzes %}
+        <tr>
+          <td>{{ quiz.quizid }}</td>
+          <td>
+            {% for subject in subjects %} {% if subject.subjectid ==
+            quiz.subjectid %} {{ subject.subjectname }} {% endif %} {% endfor %}
+          </td>
+          <td>{{ quiz.questions|length }}</td>
+          <td>{{ quiz.quizdate}}</td>
+          <td>{{ quiz.duration }} mins</td>
+          <td>
+            <button class="show-quiz-btn" onclick="showQuiz({{ quiz.quizid }})">
+              Show
+            </button>
+            <button
+              class="attempt-quiz-btn"
+              onclick="attemptQuiz({{ quiz.quizid }})"
+            >
+              Attempt
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </main>
-<script src="{{ url_for('static', filename='adminDashboard.js') }}"></script>
 {% endblock %} {% block script%}
 <script>
-  const logoutButton = document.getElementById('logout')
-  logoutButton.addEventListener('click', () => {
-    window.location.href = '/logout'
-  })
+  function showQuiz(id) {
+    window.location.href = `/show-quiz/${id}`
+  }
+
+  function attemptQuiz(quizid) {
+    window.location.href = `/attempt-quiz/${quizid}`
+  }
 </script>
 {% endblock %}

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 
 from app import app
-from models import db, User, Subjects, Chapters, Quizzes, Questions
+from models import db, User, Subjects, Chapters, Quizzes, Questions, Scores
 
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -37,7 +37,10 @@ def signup():
             db.session.commit()
             flash('User created! Logged in successfully.', category='success')
             login_user(user, remember=True)
-            return redirect(url_for('dashboard'))
+            if user.is_admin == True:
+                return redirect(url_for('admin_dashboard'))
+            else:
+                return redirect(url_for('dashboard'))
     return render_template('signup.html')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -55,7 +58,10 @@ def login():
         else:
             flash('Logged in successfully.', category='success')
             login_user(user, remember=True)
-            return redirect(url_for('dashboard'))
+            if user.is_admin == True:
+                return redirect(url_for('admin_dashboard'))
+            else:
+                return redirect(url_for('dashboard'))
 
     return render_template('login.html')
 
@@ -66,34 +72,31 @@ def logout():
     flash('Logged out successfully.', category='success')
     return redirect(url_for('login'))
 
-@app.route('/dashboard', methods=['GET', 'POST'])
+@app.route('/admin-dashboard', methods=['GET', 'POST'])
 @login_required
-def dashboard():
-    if current_user.is_admin == True:
+def admin_dashboard():
         if request.method == 'POST':
             if 'sub-name' in request.form:
                 subjectname = request.form.get('sub-name')
                 subjectdesc = request.form.get('sub-description')
                 if len(subjectname) < 1 or len(subjectdesc) < 1:
                     flash('Subject fields can\'t be empty.', category='error')
-                    return redirect(url_for('dashboard'))
+                    return redirect(url_for('admin_dashboard'))
                 if len(subjectdesc) > 512:
                     flash('Subject description can\'t be more than 512 characters.', category='error')
-                    return redirect(url_for('dashboard'))
+                    return redirect(url_for('admin_dashboard'))
                 if Subjects.query.filter_by(subjectname=subjectname).first():
                     flash('Subject already exists.', category='error')
-                    return redirect(url_for('dashboard'))
+                    return redirect(url_for('admin_dashboard'))
                 subject = Subjects(subjectname=subjectname, subjectdesc=subjectdesc)
                 db.session.add(subject)
                 db.session.commit()
                 flash('Subject added successfully.', category='success')
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('admin_dashboard'))
             if 'subject' in request.form:
                 subject = request.form.get('subject')
-                return render_template('dashboard.html', user = current_user, subjects = Subjects.query.filter_by(subjectname=subject).all(),  chapters = Chapters.query.all())
-        return render_template('admin-dashboard.html', user = current_user, subjects = Subjects.query.all(), chapters = Chapters.query.all())
-    return render_template('dashboard.html', user = current_user)
-        
+                return render_template('admin-dashboard.html', user = current_user, subjects = Subjects.query.filter_by(subjectname=subject).all(),  chapters = Chapters.query.all())
+        return render_template('admin-dashboard.html', user = current_user, subjects = Subjects.query.all(), chapters = Chapters.query.all())     
 
 @app.route('/delete-sub', methods=['POST'])
 @login_required
@@ -151,7 +154,7 @@ def add_chap(sub_id):
         db.session.add(chapter)
         db.session.commit()
         flash('Chapter added successfully.', category='success')
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('admin_dashboard'))
     subjectId = Subjects.query.get(sub_id).subjectid
     return render_template('add-chapter.html', user = current_user, subjectid = subjectId)
 
@@ -309,12 +312,39 @@ def profile():
     return render_template('profile.html', user = current_user)
 
 
+@app.route('/dashboard', methods=['GET', 'POST'])
+@login_required
+def dashboard():
+    if request.method == 'POST':
+        subject = request.form.get('subject')
+        return render_template('dashboard.html', user = current_user, subjects = Subjects.query.all(), quizzes = Quizzes.query.filter_by(subjectid=Subjects.query.filter_by(subjectname=subject).first().subjectid).all())
+    return render_template('dashboard.html', user = current_user, subjects = Subjects.query.all(), quizzes = Quizzes.query.all())
+
+@app.route('/show-quiz/<int:quiz_id>')
+@login_required
+def show_quiz(quiz_id):
+    return render_template('show-quiz.html', user = current_user, quiz = Quizzes.query.get(quiz_id),subject = Subjects.query.get(Quizzes.query.get(quiz_id).subjectid))
+
+@app.route('/attempt-quiz/<int:quiz_id>')
+@login_required
+def attempt_quiz(quiz_id):
+    return render_template('attempt-quiz.html', user = current_user, quiz = Quizzes.query.get(quiz_id), questions = Questions.query.filter_by(quizid=quiz_id).all())
+
 @app.route('/summary')
 @login_required
 def summary():
-    return 'User summary'
+    score = Scores.query.filter_by(userid=current_user.id).all()
+    if len(score) < 2:
+        score1 = Scores(userid = 2, quizid=1, attemptdate=datetime.date(2021, 1, 1), correctanswers=1, totalquestions=3)
+        score2 = Scores(userid = 2, quizid=2, attemptdate=datetime.date(2021, 1, 1), correctanswers=2, totalquestions=3)
+        score3 = Scores(userid = 2, quizid=1, attemptdate=datetime.date(2021, 1, 1), correctanswers=3, totalquestions=3)
+        db.session.add(score1)
+        db.session.add(score2)
+        db.session.add(score3)
+        db.session.commit()
+    return render_template('summary.html', user = current_user)
 
 @app.route('/score')
 @login_required
 def score():
-    return 'User score'
+    return render_template('scores.html', user = current_user, scores = Scores.query.filter_by(userid=current_user.id).all(), quizzes = Quizzes.query.all(), subjects = Subjects.query.all())

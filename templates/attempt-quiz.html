@@ -1,0 +1,95 @@
+{% extends "base.html" %} {% block title %}Attempt Quiz | Quiz Master{% endblock
+%} {% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}" />
+<style>
+  main {
+    margin: 4rem 0;
+    padding: 0.5rem;
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f3ffff;
+    border-radius: 0.5rem;
+  }
+
+  .sub-header {
+    margin: 3rem 0;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .sub-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .sub-header button {
+    padding: 7px 15px 5px;
+    font-size: 1rem;
+    background-color: #68b4e2;
+    color: #fff;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+
+  .sub-header button:hover {
+    background-color: #4f9ecb;
+  }
+
+  .quiz-content {
+    margin-bottom: 2rem;
+    width: 80%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    font-size: 1.1rem;
+  }
+
+  .quiz-content p b {
+    text-align: right;
+    display: block;
+  }
+
+  .quiz-content p {
+    margin: 0.25rem;
+  }
+</style>
+{% endblock %} {% block navbar %}
+<header>
+  <div class="header-container">
+    <h1>Quiz Master</h1>
+    <p>Welcome, {{ user.fullname}}</p>
+  </div>
+</header>
+{% endblock %} {% block content %}
+<main>
+  <div class="sub-header">
+    <h3>Q.No. 1/15</h3>
+    <span>Time remaining : 00:23:21</span>
+  </div>
+  <div class="question-display">
+    <p>
+      <b>Que: </b> question statement Lorem ipsum dolor sit amet consectetur
+      adipisicing elit. Cumque, amet recusandae possimus corporis tenetur
+      voluptate praesentium quidem inventore perferendis impedit.
+    </p>
+    <div class="options"></div>
+  </div>
+</main>
+{% endblock %} {% block script %}
+<script>
+  const questions = {
+      {% for que in questions %}
+      {{ loop.index }}: {
+          questionid: "{{que.questionid}}",
+          statement: "{{que.statement}}",
+          option1: "{{que.option1}}",
+          option2: "{{que.option2}}",
+          option3: "{{que.option3}}",
+          option4: "{{que.option4}}"
+      },
+      {%endfor%}
+  }
+</script>
+{% endblock %}

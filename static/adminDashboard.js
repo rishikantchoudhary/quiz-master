@@ -17,7 +17,7 @@ function deleteSub(id) {
     body: JSON.stringify({ sub_id: id }),
   }).then((res) => {
     if (res.ok) {
-      window.location.href = '/dashboard'
+      window.location.href = '/admin-dashboard'
     }
   })
 }
@@ -29,7 +29,7 @@ function deleteChap(id) {
     body: JSON.stringify({ chap_id: id }),
   }).then((res) => {
     if (res.ok) {
-      window.location.href = '/dashboard'
+      window.location.href = '/admin-dashboard'
     }
   })
 }

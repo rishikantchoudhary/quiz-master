@@ -12,7 +12,7 @@ endblock %} {% block stylesheet %}
     <nav>
       <ul>
         <li>
-          <a href="/dashboard">Home</a>
+          <a href="/admin-dashboard">Home</a>
         </li>
         <li>
           <a href="/admin-quiz">Quiz</a>
@@ -42,7 +42,7 @@ endblock %} {% block stylesheet %}
       </select>
       <button type="submit" id="apply">Apply</button>
     </form>
-    <button id="clear" onclick="window.location.href='/dashboard'">
+    <button id="clear" onclick="window.location.href='/admin-dashboard'">
       Clear
     </button>
   </div>
@@ -117,12 +117,6 @@ endblock %} {% block stylesheet %}
     </div>
   </form>
 </div>
-<script src="{{ url_for('static', filename='adminDashboard.js') }}"></script>
 {% endblock %} {% block script%}
-<script>
-  const logoutButton = document.getElementById('logout')
-  logoutButton.addEventListener('click', () => {
-    window.location.href = '/logout'
-  })
-</script>
+<script src="{{ url_for('static', filename='adminDashboard.js') }}"></script>
 {% endblock %}

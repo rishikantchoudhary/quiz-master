@@ -52,6 +52,8 @@ class Quizzes(db.Model):
     subjectid = db.Column(db.Integer, db.ForeignKey('subjects.subjectid'), nullable=False)
     duration = db.Column(db.Integer, nullable=False)
     quizdate = db.Column(db.Date, nullable=False)
+    #relationships
+    questions = db.relationship('Questions', backref='quiz', lazy=True)
 
 class Questions(db.Model):
     __tablename__ = 'questions'
@@ -66,6 +68,16 @@ class Questions(db.Model):
     option4 = db.Column(db.String(80), nullable=False)
     ans = db.Column(db.Integer, nullable=False)
 
+class Scores(db.Model):
+    __tablename__ = 'scores'
+    scoreid = db.Column(db.Integer, primary_key=True)
+    userid = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    quizid = db.Column(db.Integer, db.ForeignKey('quizzes.quizid'), nullable=False)
+    attemptdate = db.Column(db.Date, nullable=False)
+    correctanswers = db.Column(db.Integer, nullable=False)
+    totalquestions = db.Column(db.Integer, nullable=False)
+    
+
 # create database if does not exist
 
 with app.app_context():
@@ -77,8 +89,8 @@ with app.app_context():
         dob = datetime.date(2000, 1, 1)
         admin = User(username='admin', password='admin', fullname='Admin', qualification='phd', dob=dob , is_admin=True)
         db.session.add(admin)
-        quiz1 = Quizzes(quizname='quiz1', subjectid=1, duration=30, quizdate=datetime.date(2021, 1, 1))
-        quiz2 = Quizzes(quizname='quiz2', subjectid=2, duration=30, quizdate=datetime.date(2021, 1, 1))
-        db.session.add(quiz1)
-        db.session.add(quiz2)
+        score1 = Scores(userid = 1, quizid=1, attemptdate=datetime.date(2021, 1, 1), correctanswers=1, totalquestions=3)
+        score2 = Scores(userid = 2, quizid=2, attemptdate=datetime.date(2021, 1, 1), correctanswers=1, totalquestions=3)
+        db.session.add(score1)
+        db.session.add(score2)
         db.session.commit()

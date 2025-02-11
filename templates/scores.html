@@ -1,0 +1,106 @@
+{% extends "base.html" %} {% block title %}Scores | Quiz Master{% endblock %} {%
+block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}" />
+<style>
+  main {
+    margin: 4rem 0;
+    padding: 0.5rem;
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f3ffff;
+    border-radius: 0.5rem;
+  }
+
+  h2 {
+    margin: 3rem 0 2rem;
+    font-size: 1.5rem;
+  }
+
+  .sub-header button {
+    padding: 7px 15px 5px;
+    font-size: 1rem;
+    background-color: #68b4e2;
+    color: #fff;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+
+  .sub-header button:hover {
+    background-color: #4f9ecb;
+  }
+
+  table {
+    width: 90%;
+    border-collapse: collapse;
+    margin-bottom: 3rem;
+  }
+
+  th,
+  td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+  }
+</style>
+{% endblock %} {% block navbar %}
+<header>
+  <div class="header-container">
+    <h1>Quiz Master</h1>
+    <nav>
+      <ul>
+        <li>
+          <a href="/dashboard">Home</a>
+        </li>
+        <li>
+          <a href="/score">Score</a>
+        </li>
+        <li>
+          <a href="/summary">Summary</a>
+        </li>
+        <li>
+          <a href="/logout">Log out</a>
+        </li>
+      </ul>
+    </nav>
+    <a href="/profile">Welcome, {{ user.fullname}}</a>
+  </div>
+</header>
+{% endblock %} {% block content %}
+<main>
+  <h2>Scores:</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Subject</th>
+        <th>Quiz name</th>
+        <th>No of questions</th>
+        <th>Duration</th>
+        <th>Date of attempt</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for score in scores %}
+      <tr>
+        <td>{{score.scoreid}}</td>
+        {% for quiz in quizzes %} {% if quiz.quizid == score.quizid %} {% for
+        subject in subjects %} {% if subject.subjectid == quiz.subjectid %}
+        <td>{{ subject.subjectname }}</td>
+        {% endif %} {% endfor %} {% endif %} {% endfor %} {% for quiz in quizzes
+        %} {% if quiz.quizid == score.quizid %}
+        <td>{{ quiz.quizname }}</td>
+        <td>{{ quiz.questions|length }}</td>
+        <td>{{ quiz.duration }} mins</td>
+        {% endif %} {% endfor %}
+        <td>{{score.attemptdate}}</td>
+        <td>{{score.correctanswers}}/{{score.totalquestions}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</main>
+{% endblock %} {% block script %} {% endblock %}

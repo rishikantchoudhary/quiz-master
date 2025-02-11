@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}View Question | Quiz Master{%
-endblock %} {% block stylesheet %}
+{% extends "base.html" %} {% block title %}Show Quiz | Quiz Master{% endblock %}
+{% block stylesheet %}
 <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}" />
 <style>
   main {
@@ -38,18 +38,21 @@ endblock %} {% block stylesheet %}
     background-color: #4f9ecb;
   }
 
-  .question-display {
+  .quiz-content {
     margin-bottom: 2rem;
     width: 80%;
-    font-size: 1.2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    font-size: 1.1rem;
   }
 
-  .question-display div {
-    margin-bottom: 1.5rem;
+  .quiz-content p b {
+    text-align: right;
+    display: block;
   }
 
-  .question-display p {
-    margin: 0.5rem 0;
+  .quiz-content p {
+    margin: 0.25rem;
   }
 </style>
 {% endblock %} {% block navbar %}
@@ -59,13 +62,13 @@ endblock %} {% block stylesheet %}
     <nav>
       <ul>
         <li>
-          <a href="/admin-dashboard">Home</a>
+          <a href="/dashboard">Home</a>
         </li>
         <li>
-          <a href="/admin-quiz">Quiz</a>
+          <a href="/score">Score</a>
         </li>
         <li>
-          <a href="/admin-summary">Summary</a>
+          <a href="/summary">Summary</a>
         </li>
         <li>
           <a href="/logout">Log out</a>
@@ -78,23 +81,26 @@ endblock %} {% block stylesheet %}
 {% endblock %} {% block content %}
 <main>
   <div class="sub-header">
-    <h2>Chapter: {{chapter}}</h2>
+    <h2>Quiz details:</h2>
     <button onclick="goBack()">Go back</button>
   </div>
-  <div class="question-display">
-    <div class="question">
-      <p><b>Question id:</b> {{ question.questionid }}</p>
-      <p><b>Question title:</b> {{ question.title }}</p>
-      <p><b>Question statement:</b> {{ question.statement }}</p>
-    </div>
-    <div class="options">
-      <p><b>Options</b></p>
-      <p><b>Option 1 :</b> {{question.option1}}</p>
-      <p><b>Option 2 :</b> {{question.option2}}</p>
-      <p><b>Option 3 :</b> {{question.option3}}</p>
-      <p><b>Option 4 :</b> {{question.option4}}</p>
-      <p><b>Answer :</b> Option {{question.ans}}</p>
-    </div>
+  <div class="quiz-content">
+    <p><b>Id :</b></p>
+    <p>{{quiz.quizid}}</p>
+    <p><b>Quiz name :</b></p>
+    <p>{{quiz.quizname}}</p>
+    <p><b>Subject :</b></p>
+    <p>{{subject.subjectname}}</p>
+    <p><b>No of questons :</b></p>
+    <p>{{quiz.questions | length }}</p>
+    <p><b>Date :</b></p>
+    <p>{{quiz.quizdate}}</p>
+    <p><b>Duration :</b></p>
+    <p>{{quiz.duration}} mins</p>
+    <p>
+      <b>Subject Description :</b>
+    </p>
+    <p>{{subject.subjectdesc}}</p>
   </div>
 </main>
 {% endblock %} {% block script %}

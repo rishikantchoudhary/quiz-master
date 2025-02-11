@@ -1,5 +1,5 @@
-{% extends "base.html" %} {% block title %}Admin Summary | Quiz Master{%
-endblock %} {% block stylesheet %}
+{% extends "base.html" %} {% block title %}Summary | Quiz Master{% endblock %}
+{% block stylesheet %}
 <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}" />
 <style>
   main {
@@ -20,13 +20,13 @@ endblock %} {% block stylesheet %}
     <nav>
       <ul>
         <li>
-          <a href="/admin-dashboard">Home</a>
+          <a href="/dashboard">Home</a>
         </li>
         <li>
-          <a href="/admin-quiz">Quiz</a>
+          <a href="/score">Score</a>
         </li>
         <li>
-          <a href="/admin-summary">Summary</a>
+          <a href="/summary">Summary</a>
         </li>
         <li>
           <a href="/logout">Log out</a>

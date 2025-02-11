@@ -1,0 +1,96 @@
+.topbar {
+  margin: 2rem;
+}
+
+.topbar form {
+  display: inline;
+}
+
+.topbar select {
+  margin-left: 1rem;
+  padding: 0.3rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  background-color: #f3ffff;
+}
+
+.topbar button {
+  margin: 0.4rem 1.5rem;
+  padding: 5px 10px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  color: #fff;
+}
+
+#apply {
+  background-color: #4caf50;
+}
+
+#clear {
+  background-color: #68b4e2;
+  margin-left: 0;
+}
+
+#apply:hover {
+  background-color: #45a049;
+}
+
+#clear:hover {
+  background-color: #5095d1;
+}
+
+.quiz-display {
+  padding: 1rem 2rem;
+  min-height: 50vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f3ffff;
+  border-radius: 1rem;
+}
+
+.quiz-display h2 {
+  margin-top: 2rem;
+  font-size: 1.8rem;
+}
+
+.quiz-display table {
+  margin: 2rem 0;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.quiz-display table th,
+.quiz-display table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.quiz-display table button {
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.attempt-quiz-btn {
+  background-color: #4caf50;
+}
+
+.attempt-quiz-btn:hover {
+  background-color: #419b44;
+}
+
+.show-quiz-btn {
+  background-color: #68b4e2;
+}
+
+.show-quiz-btn:hover {
+  background-color: #5095d1;
+}

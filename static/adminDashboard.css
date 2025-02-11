@@ -38,6 +38,7 @@
 }
 
 .subject-display {
+  min-height: 50vh;
   padding: 1rem 2rem;
   width: 100%;
   background-color: #f3ffff;
