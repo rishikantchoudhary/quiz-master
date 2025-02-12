@@ -172,7 +172,7 @@ def admin_quiz():
             subjectName = request.form.get('select-subject')
             subjectid = Subjects.query.filter_by(subjectname=subjectName).first().subjectid
             quizdate = datetime.date.today()
-            if not 10 <= duration <= 240:
+            if not 1 <= duration <= 240:
                 flash('Quiz duration must be between 10 and 240 minutes.', category='error')
                 return redirect(url_for('admin_quiz'))
             if len(quizname) < 1:
@@ -242,7 +242,7 @@ def edit_quiz(quiz_id):
         quizname = request.form.get('quiz-name')
         duration = int(request.form.get('quiz-duration'))
         subjectName = request.form.get('select-subject')
-        if not 10 <= duration <= 240:
+        if not 1 <= duration <= 240:
                 flash('Quiz duration must be between 10 and 240 minutes.', category='error')
                 return redirect(url_for('edit_quiz', quiz_id=quiz_id))
         if len(quizname) < 1:
@@ -330,21 +330,38 @@ def show_quiz(quiz_id):
 def attempt_quiz(quiz_id):
     return render_template('attempt-quiz.html', user = current_user, quiz = Quizzes.query.get(quiz_id), questions = Questions.query.filter_by(quizid=quiz_id).all())
 
+@app.route('/submit-quiz', methods=['POST'])
+@login_required
+def submit_quiz():
+    response = json.loads(request.data)
+    userid = response['userid']
+    quizid = response['quizid']
+    quizname = Quizzes.query.get(quizid).quizname
+    subject = Subjects.query.get(Quizzes.query.get(quizid).subjectid).subjectname
+    duration = Quizzes.query.get(quizid).duration
+    selectedAnswers = response['selectedAnswers']
+    attemptdate = datetime.date.today()
+    correctanswers = 0
+    totalquestions = len(selectedAnswers)
+
+    for i in selectedAnswers:
+        answer = Questions.query.get(i).ans
+        if answer == int(selectedAnswers[i]):
+            correctanswers += 1
+
+    score = Scores(userid=userid, quizid=quizid, quizname=quizname, subject=subject, duration=duration, attemptdate=attemptdate, correctanswers=correctanswers, totalquestions=totalquestions)
+    db.session.add(score)
+    db.session.commit()
+    flash('Quiz submitted successfully.', category='success')
+    return jsonify({})
+
+
 @app.route('/summary')
 @login_required
 def summary():
-    score = Scores.query.filter_by(userid=current_user.id).all()
-    if len(score) < 2:
-        score1 = Scores(userid = 2, quizid=1, attemptdate=datetime.date(2021, 1, 1), correctanswers=1, totalquestions=3)
-        score2 = Scores(userid = 2, quizid=2, attemptdate=datetime.date(2021, 1, 1), correctanswers=2, totalquestions=3)
-        score3 = Scores(userid = 2, quizid=1, attemptdate=datetime.date(2021, 1, 1), correctanswers=3, totalquestions=3)
-        db.session.add(score1)
-        db.session.add(score2)
-        db.session.add(score3)
-        db.session.commit()
     return render_template('summary.html', user = current_user)
 
 @app.route('/score')
 @login_required
 def score():
-    return render_template('scores.html', user = current_user, scores = Scores.query.filter_by(userid=current_user.id).all(), quizzes = Quizzes.query.all(), subjects = Subjects.query.all())
+    return render_template('scores.html', user = current_user, scores = Scores.query.filter_by(userid=current_user.id).all())

@@ -51,7 +51,7 @@
     <table>
       <thead>
         <tr>
-          <th>Quiz ID</th>
+          <th>S. No.</th>
           <th>Subject</th>
           <th>No. of questions</th>
           <th>Date</th>
@@ -62,7 +62,7 @@
       <tbody>
         {% for quiz in quizzes %}
         <tr>
-          <td>{{ quiz.quizid }}</td>
+          <td>{{ loop.index }}</td>
           <td>
             {% for subject in subjects %} {% if subject.subjectid ==
             quiz.subjectid %} {{ subject.subjectname }} {% endif %} {% endfor %}

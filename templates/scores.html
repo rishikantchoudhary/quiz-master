@@ -74,7 +74,7 @@ block stylesheet %}
   <table>
     <thead>
       <tr>
-        <th>Id</th>
+        <th>S. No.</th>
         <th>Subject</th>
         <th>Quiz name</th>
         <th>No of questions</th>
@@ -86,18 +86,13 @@ block stylesheet %}
     <tbody>
       {% for score in scores %}
       <tr>
-        <td>{{score.scoreid}}</td>
-        {% for quiz in quizzes %} {% if quiz.quizid == score.quizid %} {% for
-        subject in subjects %} {% if subject.subjectid == quiz.subjectid %}
-        <td>{{ subject.subjectname }}</td>
-        {% endif %} {% endfor %} {% endif %} {% endfor %} {% for quiz in quizzes
-        %} {% if quiz.quizid == score.quizid %}
-        <td>{{ quiz.quizname }}</td>
-        <td>{{ quiz.questions|length }}</td>
-        <td>{{ quiz.duration }} mins</td>
-        {% endif %} {% endfor %}
-        <td>{{score.attemptdate}}</td>
-        <td>{{score.correctanswers}}/{{score.totalquestions}}</td>
+        <td>{{loop.index}}</td>
+        <td>{{ score.subject }}</td>
+        <td>{{ score.quizname }}</td>
+        <td>{{ score.totalquestions }}</td>
+        <td>{{ score.duration }} mins</td>
+        <td>{{ score.attemptdate }}</td>
+        <td>{{ score.correctanswers }}/{{ score.totalquestions }}</td>
       </tr>
       {% endfor %}
     </tbody>

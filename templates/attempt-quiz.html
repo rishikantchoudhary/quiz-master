@@ -24,35 +24,69 @@
     font-size: 1.5rem;
   }
 
-  .sub-header button {
+  .question-display button {
+    margin-top: 0.75rem;
     padding: 7px 15px 5px;
-    font-size: 1rem;
-    background-color: #68b4e2;
     color: #fff;
     border: none;
     border-radius: 0.25rem;
     cursor: pointer;
   }
 
-  .sub-header button:hover {
-    background-color: #4f9ecb;
-  }
-
-  .quiz-content {
+  .question-display {
     margin-bottom: 2rem;
-    width: 80%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    width: 85%;
     font-size: 1.1rem;
   }
 
-  .quiz-content p b {
-    text-align: right;
-    display: block;
+  .question-card {
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 2px 4px 10px #cccccc98;
   }
 
-  .quiz-content p {
-    margin: 0.25rem;
+  .options {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .question-display div {
+    margin: 0.4rem 0;
+  }
+
+  .buttons-sec {
+    font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .buttons-sec button {
+    font-size: 1rem;
+  }
+
+  .blue {
+    background-color: #68b4e2;
+  }
+
+  .blue:hover {
+    background-color: #5095d1;
+  }
+
+  .green {
+    background-color: #4caf50;
+  }
+
+  .green:hover {
+    background-color: #429846;
+  }
+
+  .red {
+    background-color: #f44;
+  }
+
+  .red:hover {
+    background-color: rgb(219, 48, 48);
   }
 </style>
 {% endblock %} {% block navbar %}
@@ -65,31 +99,164 @@
 {% endblock %} {% block content %}
 <main>
   <div class="sub-header">
-    <h3>Q.No. 1/15</h3>
-    <span>Time remaining : 00:23:21</span>
+    <h3>Quiz name : {{quiz.quizname}}</h3>
+    <span
+      >Time remaining : <span id="hour">00</span>:<span id="minute">21</span
+      >:<span class="seconds">43</span></span
+    >
   </div>
   <div class="question-display">
-    <p>
-      <b>Que: </b> question statement Lorem ipsum dolor sit amet consectetur
-      adipisicing elit. Cumque, amet recusandae possimus corporis tenetur
-      voluptate praesentium quidem inventore perferendis impedit.
-    </p>
-    <div class="options"></div>
+    <form method="post">
+      {% for que in questions %}
+      <div class="question-card">
+        <p>
+          <b>Que {{loop.index}}/{{quiz.questions|length}} :</b>
+          {{que.statement}}
+        </p>
+        <div class="options">
+          <div>
+            <input
+              type="radio"
+              name="{{que.questionid}}"
+              id="{{que.questionid}}1"
+              value="1"
+            />
+            <label for="{{que.questionid}}1">: {{que.option1}}</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="{{que.questionid}}"
+              id="{{que.questionid}}2"
+              value="2"
+            />
+            <label for="{{que.questionid}}2">: {{que.option2}}</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="{{que.questionid}}"
+              id="{{que.questionid}}3"
+              value="3"
+            />
+            <label for="{{que.questionid}}3">: {{que.option3}}</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              name="{{que.questionid}}"
+              id="{{que.questionid}}4"
+              value="4"
+            />
+            <label for="{{que.questionid}}4">: {{que.option4}}</label>
+          </div>
+          <div>
+            <button
+              class="blue"
+              type="button"
+              onclick="clearSelection({{que.questionid}})"
+            >
+              Clear selection
+            </button>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <div class="buttons-sec">
+        <div>
+          <button type="button" class="blue" onclick="clearAll()">
+            Clear all Responses
+          </button>
+          <button type="button" class="green" onclick="submitQuiz()">
+            Submit
+          </button>
+        </div>
+        <div>
+          <button type="button" class="red" onclick="exitQuiz()">
+            Exit Quiz
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
 </main>
 {% endblock %} {% block script %}
 <script>
-  const questions = {
-      {% for que in questions %}
-      {{ loop.index }}: {
-          questionid: "{{que.questionid}}",
-          statement: "{{que.statement}}",
-          option1: "{{que.option1}}",
-          option2: "{{que.option2}}",
-          option3: "{{que.option3}}",
-          option4: "{{que.option4}}"
-      },
-      {%endfor%}
+  // clear one response
+  const clearSelection = (name) => {
+    try {
+      document.querySelector(`input[name="${name}"]:checked`).checked = false
+    } catch (err) {}
   }
+
+  // clear all responses
+  function clearAll (){
+    try {
+      {% for que in questions %}
+      document.querySelector(`input[type="radio"]:checked`).checked = false;
+      {% endfor %}
+    } catch (err) {}
+  }
+
+  // exit the quiz
+  function exitQuiz (){
+    window.location.href = '/dashboard'
+  }
+
+  // submit the quiz
+  function submitQuiz (){
+    let selectedAnswers = {}
+    let quizid
+    let value
+
+    {% for que in questions %}
+    try{
+      quizid = {{que.questionid}};
+      value = document.querySelector(`input[name="{{que.questionid}}"]:checked`).value
+      selectedAnswers[quizid] = value
+    }catch(err){
+      selectedAnswers[quizid] = '0'
+    }
+    {% endfor %}
+
+    const finalSubmission = {userid : {{user.id}}, quizid : {{quiz.quizid}}, selectedAnswers : selectedAnswers}
+
+    // sending answer to backend
+    fetch(`/submit-quiz`, {
+      method: 'POST',
+      body: JSON.stringify(finalSubmission),
+    }).then((res) => {
+      if (res.ok) {
+        window.location.href = '/dashboard'
+      }
+    })
+  }
+
+  // timer
+  const duration = {{quiz.duration}}
+
+  function startCountdown(minutes) {
+  let totalSeconds = minutes * 60;
+
+    function updateTimer() {
+      let hours = Math.floor(totalSeconds / 3600);
+      let minutes = Math.floor((totalSeconds % 3600) / 60);
+      let seconds = totalSeconds % 60;
+
+      document.getElementById("hour").textContent = String(hours).padStart(2, '0');
+      document.getElementById("minute").textContent = String(minutes).padStart(2, '0');
+      document.querySelector(".seconds").textContent = String(seconds).padStart(2, '0');
+
+      if (totalSeconds > 0) {
+        totalSeconds--;
+        setTimeout(updateTimer, 1000);
+      } else {
+        submitQuiz()
+      }
+    }
+
+    updateTimer();
+  }
+  startCountdown(duration);
 </script>
 {% endblock %}

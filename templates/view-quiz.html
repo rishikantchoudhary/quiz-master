@@ -196,7 +196,7 @@
   <table>
     <thead>
       <tr>
-        <th>Id</th>
+        <th>S.No.</th>
         <th>Que title</th>
         <th>Chapter name</th>
         <th>Action</th>
@@ -205,7 +205,7 @@
     <tbody>
       {% for question in questions %}
       <tr>
-        <td>{{ question.questionid }}</td>
+        <td>{{ loop.index }}</td>
         <td>{{ question.title }}</td>
         {% for chapter in chapters %} {% if chapter.chapterid ==
         question.chapterid %}
